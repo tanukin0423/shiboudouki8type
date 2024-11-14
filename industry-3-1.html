@@ -1,0 +1,518 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>志望動機作成・企業のビジョン・理念共感型</title>
+    <style>
+        /* ベースのスタイル */
+        body {
+            font-family: 'Arial', sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+    
+        .container {
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+    
+        h1 {
+            color: #2c3e50;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+    
+        .section {
+            margin-bottom: 25px;
+            padding: 15px;
+            border: 1px solid #e0e0e0;
+            border-radius: 4px;
+            position: relative;
+        }
+    
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+    
+        /* オーディオコントロール */
+        .audio-controls {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            margin: 10px 0;
+            position: relative;
+            z-index: 2;
+        }
+    
+        .play-button {
+            background-color: #3498db;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 4px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+    
+        .play-button:hover {
+            background-color: #2980b9;
+        }
+    
+        .speed-control {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+    
+        .speed-slider {
+            width: 100px;
+        }
+    
+        /* テキストエリア関連 - 更新された部分 */
+        textarea {
+            width: 100%;
+            min-height: 100px;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            resize: vertical;
+            margin-top: 10px;
+            line-height: 1.5;
+            font-size: 16px;
+            overflow-y: hidden;
+            height: auto;
+        }
+    
+        .char-count {
+            color: #666;
+            font-size: 0.9em;
+            margin-top: 5px;
+            text-align: right;
+        }
+    
+        .sample-text {
+            font-size: 0.9em;
+            color: #666;
+            margin: 10px 0;
+            padding: 10px;
+            background-color: #f8f9fa;
+            border-left: 3px solid #27ae60;
+            position: relative;
+            z-index: 2;
+        }
+    
+        /* カウントと下部ボタン */
+        .total-count {
+            margin: 20px 0;
+            padding: 10px;
+            background-color: #f8f9fa;
+            border-radius: 4px;
+            text-align: center;
+        }
+    
+        .download-button {
+            display: block;
+            width: 100%;
+            padding: 10px;
+            background-color: #2ecc71;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 1.1em;
+            margin-top: 20px;
+        }
+    
+        .download-button:hover {
+            background-color: #27ae60;
+        }
+    
+        /* キーポイント */
+        .key-points {
+            background-color: #f8f9fa;
+            padding: 10px;
+            border-radius: 4px;
+            border-left: 3px solid #3498db;
+            font-size: 0.85em;
+            color: #666;
+            margin-bottom: 15px;
+        }
+    
+        .key-points h4 {
+            margin: 0 0 5px 0;
+            color: #2c3e50;
+            font-size: 0.9em;
+        }
+    
+        .key-points ul {
+            margin: 0;
+            padding-left: 20px;
+            list-style-type: disc;
+        }
+    
+        .key-points li {
+            margin: 3px 0;
+        }
+    
+        /* デスクトップ表示用 */
+        @media screen and (min-width: 769px) {
+            .key-points {
+                position: absolute;
+                top: 15px;
+                right: 15px;
+                max-width: 200px;
+                z-index: 1;
+            }
+    
+            .section-header {
+                margin-bottom: 60px;
+            }
+        }
+    
+        /* スマートフォン表示用 - 更新された部分 */
+        @media screen and (max-width: 768px) {
+            body {
+                padding: 10px;
+            }
+    
+            .container {
+                padding: 15px;
+            }
+    
+            .key-points {
+                position: static;
+                max-width: 100%;
+                margin: 10px 0;
+                right: auto;
+                top: auto;
+            }
+    
+            .section-header {
+                margin-bottom: 20px;
+                flex-direction: column;
+                align-items: flex-start;
+            }
+    
+            .sample-text {
+                margin: 10px 0;
+                position: static;
+                font-size: 14px;
+                line-height: 1.4;
+                padding: 8px;
+            }
+    
+            .audio-controls {
+                position: static;
+                margin: 10px 0;
+                flex-direction: column;
+                align-items: flex-start;
+            }
+    
+            .speed-control {
+                width: 100%;
+                justify-content: space-between;
+            }
+    
+            .speed-slider {
+                width: 50%;
+            }
+    
+            textarea {
+                min-height: 120px;
+                font-size: 14px;
+                line-height: 1.4;
+                padding: 8px;
+            }
+    
+            .play-button {
+                width: 100%;
+                justify-content: center;
+            }
+    
+            .char-count {
+                font-size: 12px;
+                margin-top: 4px;
+            }
+        }
+    
+        /* 小さな画面用の追加調整 - 更新された部分 */
+        @media screen and (max-width: 480px) {
+            h1 {
+                font-size: 1.5em;
+            }
+    
+            .section {
+                padding: 10px;
+            }
+    
+            .sample-text {
+                font-size: 13px;
+                line-height: 1.3;
+            }
+    
+            textarea {
+                min-height: 100px;
+                font-size: 13px;
+                line-height: 1.3;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="container">
+            <h1>志望動機作成・企業のビジョン・理念共感型 </h1>
+    
+            <div class="section">
+                <div class="section-header">
+                    <h2>1. 導入: 企業のビジョンに対する共感</h2>
+                </div>
+                <div class="key-points">
+                    <h4>着眼ポイント</h4>
+                    <ul>
+                        <li>企業理念・ミッション</li>
+                        <li>中長期経営計画</li>
+                        <li>トップメッセージ</li>
+                        <li>サステナビリティへの取り組み</li>
+                    </ul>
+                </div>
+            <div class="audio-controls">
+                <button class="play-button" onclick="toggleSpeech('intro-text')">
+                    <span class="icon">🔊</span> <span id="intro-button-text">再生</span>
+                </button>
+                <div class="speed-control">
+                    速度: <input type="range" min="0.5" max="2" step="0.1" value="1" class="speed-slider" onchange="updateSpeed(this.value, 'intro')">
+                    <span id="intro-speed">1.0</span>x
+                </div>
+            </div>
+            <div class="sample-text">
+                貴社が掲げる「技術革新を通じて社会に貢献する」というビジョンに深く共感いたしました。特に、環境技術の開発を通じて持続可能な社会の実現を目指す姿勢に強く感銘を受けました。
+            </div>
+            <textarea id="intro" maxlength="80" oninput="updateCharCount(this, 80)"></textarea>
+            <div class="char-count">0/80文字</div>
+        </div>
+
+        <div class="section">
+            <div class="section-header">
+                <h2>2. 具体的なエピソード</h2>
+            </div>
+            <div class="key-points">
+                <h4>着眼ポイント</h4>
+                <ul>
+                    <li>求める人材像との整合</li>
+                    <li>事業領域との関連性</li>
+                    <li>数値的な成果</li>
+                    <li>チームでの役割</li>
+                </ul>
+            </div>
+            <div class="audio-controls">
+                <button class="play-button" onclick="toggleSpeech('episode-text')">
+                    <span class="icon">🔊</span> <span id="episode-button-text">再生</span>
+                </button>
+                <div class="speed-control">
+                    速度: <input type="range" min="0.5" max="2" step="0.1" value="1" class="speed-slider" onchange="updateSpeed(this.value, 'episode')">
+                    <span id="episode-speed">1.0</span>x
+                </div>
+            </div>
+            <div class="sample-text">
+                大学時代、環境サークルでリーダーを務め、地域の清掃活動や環境啓発イベントを企画・運営しました。特に、地域企業と協力して実施したリサイクル推進プロジェクトでは、参加者の環境意識向上に貢献し、具体的な成果を上げることができました。
+            </div>
+            <textarea id="episode" maxlength="150" oninput="updateCharCount(this, 150)"></textarea>
+            <div class="char-count">0/150文字</div>
+        </div>
+
+        <div class="section">
+            <div class="section-header">
+                <h2>3. 具体的なスキルや強み</h2>
+            </div>
+            <div class="key-points">
+                <h4>着眼ポイント</h4>
+                <ul>
+                    <li>職種別必要スキル</li>
+                    <li>採用情報の重視点</li>
+                    <li>社内で活躍している人材像</li>
+                    <li>技術スタック・資格要件</li>
+                </ul>
+            </div>
+            <div class="audio-controls">
+                <button class="play-button" onclick="toggleSpeech('skills-text')">
+                    <span class="icon">🔊</span> <span id="skills-button-text">再生</span>
+                </button>
+                <div class="speed-control">
+                    速度: <input type="range" min="0.5" max="2" step="0.1" value="1" class="speed-slider" onchange="updateSpeed(this.value, 'skills')">
+                    <span id="skills-speed">1.0</span>x
+                </div>
+            </div>
+            <div class="sample-text">
+                プロジェクトマネジメントの経験と環境分野の専門知識を活かし、チームを効果的にまとめながら、具体的な成果を出すことができます。また、英語力を活かした海外との協働も得意としています。
+            </div>
+            <textarea id="skills" maxlength="90" oninput="updateCharCount(this, 90)"></textarea>
+            <div class="char-count">0/90文字</div>
+        </div>
+
+        <div class="section">
+            <div class="section-header">
+                <h2>4. 企業への貢献</h2>
+            </div>
+            <div class="key-points">
+                <h4>着眼ポイント</h4>
+                <ul>
+                    <li>事業課題・成長戦略</li>
+                    <li>新規事業展開</li>
+                    <li>グローバル展開状況</li>
+                    <li>業界での位置づけ</li>
+                </ul>
+            </div>
+            <div class="audio-controls">
+                <button class="play-button" onclick="toggleSpeech('contribution-text')">
+                    <span class="icon">🔊</span> <span id="contribution-button-text">再生</span>
+                </button>
+                <div class="speed-control">
+                    速度: <input type="range" min="0.5" max="2" step="0.1" value="1" class="speed-slider" onchange="updateSpeed(this.value, 'contribution')">
+                    <span id="contribution-speed">1.0</span>x
+                </div>
+            </div>
+            <div class="sample-text">
+                環境技術の開発チームの一員として、持続可能な社会の実現に向けて積極的に貢献していきたいと考えています。特に、海外展開におけるプロジェクト推進に力を発揮したいと思います。
+            </div>
+            <textarea id="contribution" maxlength="80" oninput="updateCharCount(this, 80)"></textarea>
+            <div class="char-count">0/80文字</div>
+        </div>
+
+        <div class="total-count">
+            合計文字数: <span id="totalCount">0</span>文字
+        </div>
+
+        <button class="download-button" onclick="downloadText()">
+            テキストファイルとしてダウンロード
+        </button>
+    </div>
+
+    <script>
+        const speechTexts = {
+            'intro-text': '企業のビジョンや理念への共感を述べる際は、具体的な理念や取り組みに触れながら、なぜそれに共感したのかを明確に説明することが重要です。形式的な内容ではなく、自身の価値観と結びつけて述べましょう。',
+            'episode-text': '自己PRを裏付ける具体的なエピソードを述べる際は、単なる経験の羅列ではなく、その経験を通じて得た学びや成長、そして企業の求める人材像とどのように結びつくのかを明確にすることが重要です。',
+            'skills-text': 'スキルや強みを述べる際は、企業が求める能力や経験と自身の持つスキルを結びつけて説明することが重要です。具体的な実績や数値を交えることで、より説得力のある内容となります。',
+            'contribution-text': '企業への貢献を述べる際は、企業の課題や目標を理解した上で、自身のスキルや経験をどのように活かして貢献できるのかを具体的に説明することが重要です。将来のビジョンも含めて述べると良いでしょう。'
+        };
+
+        let currentUtterance = null;
+        const speechSynth = window.speechSynthesis;
+        const speeds = {};
+
+        function updateSpeed(value, section) {
+            speeds[section] = value;
+            document.getElementById(`${section}-speed`).textContent = parseFloat(value).toFixed(1);
+            if (currentUtterance && currentUtterance.section === section) {
+                currentUtterance.rate = value;
+            }
+        }
+
+        function toggleSpeech(textId) {
+            const section = textId.split('-')[0];
+            const buttonText = document.getElementById(`${section}-button-text`);
+
+            if (currentUtterance) {
+                speechSynth.cancel();
+                currentUtterance = null;
+                buttonText.textContent = '再生';
+                return;
+            }
+
+            const text = speechTexts[textId];
+            const utterance = new SpeechSynthesisUtterance(text);
+            utterance.lang = 'ja-JP';
+            utterance.rate = speeds[section] || 1;
+            utterance.section = section;
+
+            utterance.onend = () => {
+                buttonText.textContent = '再生';
+                currentUtterance = null;
+            };
+
+            currentUtterance = utterance;
+            buttonText.textContent = '停止';
+            speechSynth.speak(utterance);
+        }
+
+        function updateCharCount(textarea, limit) {
+            const count = textarea.value.length;
+            textarea.nextElementSibling.textContent = `${count}/${limit}文字`;
+            updateTotalCount();
+        }
+
+        function updateTotalCount() {
+            const total = ['intro', 'episode', 'skills', 'contribution']
+                .reduce((sum, id) => sum + document.getElementById(id).value.length, 0);
+            document.getElementById('totalCount').textContent = total;
+        }
+
+        function downloadText() {
+            const sections = {
+                intro: document.getElementById('intro').value,
+                episode: document.getElementById('episode').value,
+                skills: document.getElementById('skills').value,
+                contribution: document.getElementById('contribution').value
+            };
+
+            const totalCount = document.getElementById('totalCount').textContent;
+
+            const content = `企業のビジョン・理念共感型 志望動機\n\n` +
+                `1. 導入: 企業のビジョンに対する共感 (${sections.intro.length}/80文字)\n${sections.intro}\n\n` +
+                `2. 具体的なエピソード (${sections.episode.length}/150文字)\n${sections.episode}\n\n` +
+                `3. 具体的なスキルや強み (${sections.skills.length}/90文字)\n${sections.skills}\n\n` +
+                `4. 企業への貢献 (${sections.contribution.length}/80文字)\n${sections.contribution}\n\n` +
+                `合計文字数: ${totalCount}文字`;
+
+            const blob = new Blob([content], { type: 'text/plain;charset=utf-8' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `志望動機_ビジョン共感型_${new Date().toLocaleDateString()}.txt`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        }
+
+        // Initialize speed displays
+        ['intro', 'episode', 'skills', 'contribution'].forEach(section => {
+            speeds[section] = 1.0;
+        });
+        // テキストエリアの高さ自動調整を行う関数
+    function autoResizeTextarea(textarea) {
+        textarea.style.height = 'auto';
+        textarea.style.height = textarea.scrollHeight + 'px';
+    }
+
+    // 全てのテキストエリアに対して自動調整を適用
+    document.addEventListener('DOMContentLoaded', function() {
+        const textareas = document.querySelectorAll('textarea');
+        textareas.forEach(textarea => {
+            // 初期化時に一度実行
+            autoResizeTextarea(textarea);
+            
+            // 入力時に実行
+            textarea.addEventListener('input', function() {
+                autoResizeTextarea(this);
+            });
+            
+            // ウィンドウリサイズ時にも実行
+            window.addEventListener('resize', function() {
+                autoResizeTextarea(textarea);
+            });
+        });
+    });
+    </script>
+</body>
+</html>
