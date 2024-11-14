@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>志望動機作成支援システム</title>
+    <style>
+        :root {
+    --primary: #4F46E5;
+    --secondary: #6B7280;
+    --accent: #EC4899;
+    --background: #F9FAFB;
+    --text: #1F2937;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    background: var(--background);
+    color: var(--text);
+    line-height: 1.5;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem;
+}
+
+.header {
+    text-align: center;
+    margin-bottom: 3rem;
+}
+
+.header h1 {
+    font-size: 2.5rem;
+    color: var(--text);
+    margin-bottom: 1rem;
+}
+
+.voice-control {
+    background: white;
+    padding: 1rem;
+    border-radius: 0.5rem;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    margin-bottom: 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.control-container {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.voice-button {
+    background: var(--primary);
+    color: white;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 0.25rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    transition: background-color 0.3s ease;
+}
+
+.voice-button:hover {
+    background-color: #4338CA;
+}
+
+.voice-button.active {
+    background-color: #10B981;
+}
+
+.speed-control {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+#speedSlider {
+    width: 100px;
+}
+
+.pattern-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1.5rem;
+    padding: 1rem;
+}
+
+.pattern-card {
+    background: white;
+    border-radius: 0.75rem;
+    padding: 1.75rem;
+    text-decoration: none;
+    color: var(--text);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+    transition: all 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+.pattern-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+}
+
+.pattern-icon {
+    width: 48px;
+    height: 48px;
+    margin-bottom: 1.25rem;
+    opacity: 0.8;
+}
+
+.pattern-title {
+    font-size: 1.25rem;
+    font-weight: bold;
+    margin-bottom: 0.5rem;
+    color: var(--text);
+}
+
+.pattern-description {
+    color: var(--secondary);
+    font-size: 0.875rem;
+}
+
+/* パステルカラーのカードスタイル */
+[data-pattern="industry"] { 
+    border-top: 4px solid #ab90f6;
+    background: linear-gradient(to bottom, #d1c4f6 0%, white 100%);
+}
+
+[data-pattern="briefing"] { 
+    border-top: 4px solid #7db5f6;
+    background: linear-gradient(to bottom, #c7daf3 0%, white 100%);
+}
+
+[data-pattern="internship"] { 
+    border-top: 4px solid #FCD34D;
+    background: linear-gradient(to bottom, #f6f1c1 0%, white 100%);
+}
+
+[data-pattern="university"] { 
+    border-top: 4px solid #FDA4AF;
+    background: linear-gradient(to bottom, #fdd5d8 0%, white 100%);
+}
+
+[data-pattern="criteria"] { 
+    border-top: 4px solid #86EFAC;
+    background: linear-gradient(to bottom, #c5f3d3 0%, white 100%);
+}
+
+[data-pattern="vision"] { 
+    border-top: 4px solid #f2bc58ee;
+    background: linear-gradient(to bottom, #f2d9b6 0%, white 100%);
+}
+
+[data-pattern="itvision"] { 
+    border-top: 4px solid #7ab5f8;
+    background: linear-gradient(to bottom, #cee7f8 0%, white 100%);
+}
+
+[data-pattern="finance"] { 
+    border-top: 4px solid #FBB6CE;
+    background: linear-gradient(to bottom, #FCE7F3 0%, white 100%);
+}
+
+/* レスポンシブデザイン調整 */
+@media (max-width: 768px) {
+    .container {
+        padding: 1rem;
+    }
+
+    .header h1 {
+        font-size: 2rem;
+    }
+
+    .pattern-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .voice-control {
+        flex-direction: column;
+        gap: 1rem;
+    }
+
+    .control-container {
+        width: 100%;
+        flex-direction: column;
+    }
+
+    .speed-control {
+        width: 100%;
+        justify-content: center;
+    }
+
+    #speedSlider {
+        width: 200px;
+    }
+}
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>志望動機作成支援システム</h1>
+            <p>作成したいパターンを選択してください</p>
+        </div>
+
+        <div class="voice-control">
+            <div class="control-container">
+                <button id="voiceButton" class="voice-button">
+                    <i id="buttonIcon" data-feather="play"></i>
+                    <span id="buttonText">読み上げを開始</span>
+                </button>
+                <div class="speed-control">
+                    <span>読み上げ速度</span>
+                    <input type="range" id="speedSlider" min="0.5" max="2" step="0.1" value="1">
+                    <span id="speedValue">1.0x</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="pattern-grid">
+            <a href="industry-3-1.html" class="pattern-card" data-pattern="industry">
+                <i data-feather="box" class="pattern-icon"></i>
+                <h3 class="pattern-title">業界・企業・職種研究</h3>
+                <p class="pattern-description">業界分析と企業研究に基づく志望動機</p>
+            </a>
+
+            <a href="briefing-3-1.html" class="pattern-card" data-pattern="briefing">
+                <i data-feather="clock" class="pattern-icon"></i>
+                <h3 class="pattern-title">説明会参加</h3>
+                <p class="pattern-description">企業説明会での学びを活かした志望動機</p>
+            </a>
+
+            <a href="internship-3-1.html" class="pattern-card" data-pattern="internship">
+                <i data-feather="briefcase" class="pattern-icon"></i>
+                <h3 class="pattern-title">インターンシップ参加</h3>
+                <p class="pattern-description">インターンでの経験を活かした志望動機</p>
+            </a>
+
+            <a href="university-3-1.html" class="pattern-card" data-pattern="university">
+                <i data-feather="book" class="pattern-icon"></i>
+                <h3 class="pattern-title">大学での学び</h3>
+                <p class="pattern-description">専攻や研究内容を活かした志望動機</p>
+            </a>
+
+            <a href="criteria-3-1.html" class="pattern-card" data-pattern="criteria">
+                <i data-feather="bar-chart-2" class="pattern-icon"></i>
+                <h3 class="pattern-title">企業選びの軸</h3>
+                <p class="pattern-description">自分の価値観と企業選択の基準</p>
+            </a>
+
+            <a href="vision-3-1.html" class="pattern-card" data-pattern="vision">
+                <i data-feather="play-circle" class="pattern-icon"></i>
+                <h3 class="pattern-title">やりたいこと</h3>
+                <p class="pattern-description">将来のビジョンと目標に基づく志望動機</p>
+            </a>
+
+            <a href="itvision-3-1.html" class="pattern-card" data-pattern="itvision">
+                <i data-feather="code" class="pattern-icon"></i>
+                <h3 class="pattern-title">IT人材として活躍</h3>
+                <p class="pattern-description">IT業界でのキャリアビジョンと目標</p>
+            </a>
+
+            <a href="areavision-3-1.html" class="pattern-card" data-pattern="finance">
+                <i data-feather="users" class="pattern-icon"></i>
+                <h3 class="pattern-title">金融で地域を支える</h3>
+                <p class="pattern-description">地域金融機関での貢献とビジョン</p>
+            </a>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Feather Iconsの初期化
+            feather.replace();
+    
+            // 音声合成の初期設定
+            const synth = window.speechSynthesis;
+            let utterance = null;
+            let isPlaying = false;
+    
+            // DOM要素の取得
+            const voiceButton = document.getElementById('voiceButton');
+            const buttonIcon = voiceButton.querySelector('i');
+            const buttonText = document.getElementById('buttonText');
+            const speedSlider = document.getElementById('speedSlider');
+            const speedValue = document.getElementById('speedValue');
+    
+            // 音声の初期化
+            function initSpeech() {
+                return new Promise((resolve) => {
+                    const text = [ 
+                        "志望動機作成支援システムへようこそ。",
+                        "作成したいパターンを選択してください。",
+                        "業界・企業・職種研究。業界分析と企業研究に基づく志望動機を作成できます。",
+                        "説明会参加。企業説明会での学びを活かした志望動機を作成できます。",
+                        "インターンシップ参加。インターンでの経験を活かした志望動機を作成できます。",
+                        "大学での学び。専攻や研究内容を活かした志望動機を作成できます。",
+                        "企業選びの軸。自分の価値観と企業選択の基準を整理できます。",
+                        "やりたいこと。将来のビジョンと目標に基づく志望動機を作成できます。",
+                        "IT人材として活躍。IT業界でのキャリアビジョンに向けた志望動機を作成できます。",
+                        "金融で地域を支える。地域金融機関での貢献への志望動機を作成できます。",
+                        "各パターンをクリックすると、詳細な作成画面に移動します。",
+                        "読み上げ速度は、上部のスライダーで調整できます。"
+                    ].join(" ");
+    
+                    utterance = new SpeechSynthesisUtterance(text);
+                    utterance.lang = 'ja-JP';
+                    utterance.rate = parseFloat(speedSlider.value);
+    
+                    // 音声が利用可能になるまで待機
+                    if (synth.getVoices().length === 0) {
+                        synth.onvoiceschanged = () => {
+                            const voices = synth.getVoices();
+                            const japaneseVoice = voices.find(voice => voice.lang.includes('ja-JP'));
+                            if (japaneseVoice) {
+                                utterance.voice = japaneseVoice;
+                            }
+                            resolve();
+                        };
+                    } else {
+                        const voices = synth.getVoices();
+                        const japaneseVoice = voices.find(voice => voice.lang.includes('ja-JP'));
+                        if (japaneseVoice) {
+                            utterance.voice = japaneseVoice;
+                        }
+                        resolve();
+                    }
+                });
+            }
+    
+            // UIの更新を一元管理する関数
+            function updateUI(playing) {
+                if (playing) {
+                    buttonText.textContent = '読み上げを停止';
+                    buttonIcon.setAttribute('data-feather', 'square');
+                    voiceButton.classList.add('active');
+                } else {
+                    buttonText.textContent = '読み上げを開始';
+                    buttonIcon.setAttribute('data-feather', 'play');
+                    voiceButton.classList.remove('active');
+                }
+                feather.replace(); // アイコンを更新
+            }
+    
+            // 音声の再生/停止処理
+            async function toggleSpeech() {
+                if (isPlaying) {
+                    synth.cancel();
+                    isPlaying = false;
+                    updateUI(false);
+                } else {
+                    try {
+                        await initSpeech();
+                        synth.cancel(); // 既存の音声をキャンセル
+                        synth.speak(utterance);
+                        isPlaying = true;
+                        updateUI(true);
+    
+                        utterance.onend = () => {
+                            isPlaying = false;
+                            updateUI(false);
+                        };
+                    } catch (error) {
+                        console.error('音声の初期化に失敗しました:', error);
+                    }
+                }
+            }
+    
+            // イベントリスナーの設定
+            voiceButton.addEventListener('click', toggleSpeech);
+            
+            speedSlider.addEventListener('input', (e) => {
+                const speed = parseFloat(e.target.value);
+                speedValue.textContent = `${speed.toFixed(1)}x`;
+                if (utterance) {
+                    utterance.rate = speed;
+                }
+            });
+    
+            // 初期化時に音声を準備
+            initSpeech().catch(error => {
+                console.error('初期音声の設定に失敗しました:', error);
+            });
+        });
+    </script>
+           
+</body>
+</html>
